@@ -16,7 +16,7 @@
   outputs = inputs:
     inputs.flake-utils.lib.eachDefaultSystem (system:
       let
-        nixvimLib = inputs.nixvim.lib.${system};
+        #nixvimLib = inputs.nixvim.lib.${system};
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         nixvim' = inputs.nixvim.legacyPackages.${system};
         mkPkgs = name: src: pkgs.vimUtils.buildVimPlugin { inherit name src; };
@@ -28,7 +28,7 @@
               globals.mapleader = " ";
               opts = {
                 number = true;
-                relativenumber = true;
+                relativenumber = false;
                 tabstop = 2;
                 shiftwidth = 2;
                 expandtab = true;
@@ -307,6 +307,10 @@
 
               # Plugin configurations
               plugins = {
+                barbar = {
+                  enable = true;
+                  autoLoad = true;
+                };
                 bufferline.enable = true;
                 comment.enable = true;
                 # Dashboard configuration
@@ -365,9 +369,10 @@
                 lsp = {
                   enable = true;
                   servers = {
-                    erlangls = {
-                      enable = true;
-                    };
+                    bashls.enable = true;
+                    elixirls.enable = true;
+                    erlangls.enable = true;
+                    nil_ls.enable = true;
                   };
                 };
                 # Neo-tree configuration
