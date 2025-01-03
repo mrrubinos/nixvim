@@ -312,6 +312,29 @@
                   autoLoad = true;
                 };
                 bufferline.enable = true;
+                cmp = {
+                  enable = true;
+                  autoEnableSources = true;
+                  settings = {
+                    mapping = {
+                      "<C-n>" = "cmp.mapping.select_next_item()";
+                      "<C-p>" = "cmp.mapping.select_prev_item()";
+                      "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+                      "<C-f>" = "cmp.mapping.scroll_docs(4)";
+                      "<C-e>" = "cmp.mapping.close()";
+                      "<CR>" = "cmp.mapping.confirm({ select = true })";
+                      "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+                      "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+                    };
+                    sources = [
+                      { name = "nvim_lsp"; }
+                      { name = "treesitter"; }
+                      { name = "path"; }
+                      { name = "buffer"; }
+                    ];
+                    snippet.expand = ''function(args) require('luasnip').lsp_expand(args.body) end'';
+                  };
+                };
                 comment.enable = true;
                 # Dashboard configuration
                 dashboard = {
@@ -372,6 +395,7 @@
                     bashls.enable = true;
                     elixirls.enable = true;
                     erlangls.enable = true;
+                    marksman.enable = true;
                     nil_ls.enable = true;
                   };
                 };
@@ -410,7 +434,8 @@
                 treesitter = {
                   enable = true;
                   settings = {
-                    ensure_installed = ["erlang" "elixir"];
+                    auto_install = true;
+                    ensure_installed = ["bash" "erlang" "elixir" "markdown" "markdown_inline" "nix"];
                   };
                 };
                 web-devicons.enable = true;
