@@ -76,7 +76,7 @@
                 {
                   mode = "n";
                   key = "<leader>/";
-                  action = ":CommentToggle<CR>";
+                  action = "gcc";
                   options = {
                     desc = "Toggle comment";
                     silent = true;
@@ -435,7 +435,7 @@
                   enable = true;
                   settings = {
                     auto_install = true;
-                    ensure_installed = ["bash" "erlang" "elixir" "markdown" "markdown_inline" "nix"];
+                    ensure_installed = ["bash" "erlang" "elixir" "eex" "heex" "markdown" "markdown_inline" "nix"];
                   };
                 };
                 web-devicons.enable = true;
