@@ -76,7 +76,7 @@
                 {
                   mode = "n";
                   key = "<leader>/";
-                  action = "gcc";
+                  action = "<Plug>(comment_toggle_linewise_current)";
                   options = {
                     desc = "Toggle comment";
                     silent = true;
