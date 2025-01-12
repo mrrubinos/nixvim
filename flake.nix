@@ -399,6 +399,10 @@
                     nil_ls.enable = true;
                   };
                 };
+                lsp-lines = {
+                  enable = true;
+                  autoLoad = true;
+                };
                 # Neo-tree configuration
                 neo-tree = {
                   enable = true;
