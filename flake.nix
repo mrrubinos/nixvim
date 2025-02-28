@@ -303,7 +303,73 @@
                     silent = true;
                   };
                 }
-              ];
+                {
+                  mode = "v";
+                  key = "<leader>ce";
+                  action = "<cmd>CodeCompanion /explain<cr>";
+                  options.desc = "Explain Selection / Buffer (CodeCompanion)";
+                }
+                {
+                  mode = "v";
+                  key = "<leader>cl";
+                  action = "<cmd>CodeCompanion /lsp<cr>";
+                  options.desc = "Explain LSP (CodeCompanion)";
+                }
+                {
+                  mode = "v";
+                  key = "<leader>cf";
+                  action = "<cmd>CodeCompanion /fix<cr>";
+                  options.desc = "Fix (CodeCompanion)";
+                }
+                {
+                  mode = "v";
+                  key = "<leader>ct";
+                  action = "<cmd>CodeCompanion /tests<cr>";
+                  options.desc = "Generate tests (CodeCompanion)";
+                }
+                {
+                  mode = "n";
+                  key = "<leader>cC";
+                  action = "<cmd>CodeCompanion /commit<cr>";
+                  options.desc = "Generate commit message (CodeCompanion)";
+                }
+                {
+                  mode = "n";
+                  key = "<leader>cc";
+                  action = "<cmd>CodeCompanionChat<cr>";
+                  options.desc = "Chat (CodeCompanion)";
+                }
+                {
+                  mode = "n";
+                  key = "<leader>ct";
+                  action = "<cmd>CodeCompanionChat Toggle<cr>";
+                  options.desc = "Chat Toggle (CodeCompanion)";
+                }
+                {
+                  mode = "n";
+                  key = "<leader>cb";
+                  action = "<cmd>CodeCompanionChat #buffer<cr>";
+                  options.desc = "Chat with Buffer Content (CodeCompanion)";
+                }
+                {
+                  mode = "v";
+                  key = "<leader>ca";
+                  action = "<cmd>CodeCompanionActions<cr>";
+                  options.desc = "Add Selection to Chat Buffer (CodeCompanion)";
+                }
+                {
+                  mode = ["v" "n"];
+                  key = "<leader>cg";
+                  action = "<cmd>CodeCompanionToggle gemini<cr>";
+                  options.desc = "Toggle to Gemini Adapter (CodeCompanion)";
+                }
+                {
+                  mode = ["v" "n"];
+                  key = "<leader>ca";
+                  action = "<cmd>CodeCompanionToggle anthropic<cr>";
+                  options.desc = "Toggle to Anthropic Adapter (CodeCompanion)";
+                }
+                ];
 
               # Plugin configurations
               plugins = {
@@ -333,6 +399,55 @@
                       { name = "buffer"; }
                     ];
                     snippet.expand = ''function(args) require('luasnip').lsp_expand(args.body) end'';
+                  };
+                };
+                codecompanion = {
+                  enable = true;
+                  autoLoad = true;
+                  settings = {
+                    adapters = {
+# Anthropic adapter configuration
+                      anthropic.__raw = ''
+                        function()
+                        return require('codecompanion.adapters').extend('anthropic', {
+                            env = {
+                            api_key = "cmd:cat /run/agenix/claude-api-key"
+                            }
+                            })
+                      end
+                        '';
+
+# Gemini adapter configuration
+                      gemini.__raw = ''
+                        function()
+                        return require('codecompanion.adapters').extend('gemini', {
+                            env = {
+                            api_key = "cmd:cat /run/agenix/gemini-api-key"
+                            }
+                            })
+                      end
+                        '';
+                    };
+
+                    opts = {
+                      send_code = true;
+                      use_default_actions = true;
+                      use_default_prompts = true;
+                      log_level = "DEBUG"; # As requested for debugging
+                    };
+
+                    strategies = {
+# Set anthropic as default for all interactions
+                      agent = {
+                        adapter = "anthropic";
+                      };
+                      chat = {
+                        adapter = "anthropic";
+                      };
+                      inline = {
+                        adapter = "anthropic";
+                      };
+                    };
                   };
                 };
                 comment.enable = true;
