@@ -4,8 +4,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixvim.url = "github:nix-community/nixvim";
     flake-utils.url = "github:numtide/flake-utils";
-    gemini = {                                                          
-      url = "github:meinside/gemini.nvim";
+    gmn = {                                                          
+      url = "github:meinside/gmn.nvim";
       flake = false;
     }; 
     template = {
@@ -566,9 +566,9 @@
               extraPlugins = with pkgs.vimPlugins; [
                 lazygit-nvim
                 (pkgs.vimUtils.buildVimPlugin {
-                  pname = "gemini-nvim";
+                  pname = "gmn-nvim";
                   version = "latest";
-                  src = inputs.gemini;
+                  src = inputs.gmn;
                   dependencies = with pkgs.vimPlugins; [
                     plenary-nvim
                   ];
@@ -577,10 +577,10 @@
               ];
               extraConfigLua = # lua
                 ''
-                  require('gemini').setup({
+                  require('gmn').setup({
                      configFilepath = '~/.config/gemini.nvim/config.json',
                      timeout = 30 * 1000,
-                     model = 'gemini-1.5-pro-latest',
+                     model = 'gemini-2.0-pro-exp-02-05',
                      safetyThreshold = 'BLOCK_ONLY_HIGH',
                      stripOutermostCodeblock = function()
                        return vim.bo.filetype ~= 'markdown'
