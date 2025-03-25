@@ -580,7 +580,7 @@
                   require('gmn').setup({
                      configFilepath = '~/.config/gemini.nvim/config.json',
                      timeout = 30 * 1000,
-                     model = 'gemini-2.0-pro-exp-02-05',
+                     model = 'gemini-2.5-pro-exp-03-25',
                      safetyThreshold = 'BLOCK_ONLY_HIGH',
                      stripOutermostCodeblock = function()
                        return vim.bo.filetype ~= 'markdown'
