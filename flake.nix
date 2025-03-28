@@ -202,6 +202,33 @@
                     silent = true;
                   };
                 }
+                {
+                  mode = "n";
+                  key = "<leader>gr";
+                  action = "<cmd>Gitsigns reset_hunk<CR>";
+                  options = {
+                    desc = "Status";
+                    silent = true;
+                  };
+                }
+                {
+                  mode = "n";
+                  key = "<leader>gn";
+                  action = "<cmd>Gitsigns next_hunk<CR>";
+                  options = {
+                    desc = "Status";
+                    silent = true;
+                  };
+                }
+                {
+                  mode = "n";
+                  key = "<leader>gp";
+                  action = "<cmd>Gitsigns prev_hunk<CR>";
+                  options = {
+                    desc = "Status";
+                    silent = true;
+                  };
+                }
                 # LSP operations
                 {
                   mode = "n";
