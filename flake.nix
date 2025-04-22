@@ -428,6 +428,7 @@
                     snippet.expand = ''function(args) require('luasnip').lsp_expand(args.body) end'';
                   };
                 };
+                cmp_luasnip.enable = true;
                 codecompanion = {
                   enable = true;
                   autoLoad = true;
@@ -542,6 +543,10 @@
                   };
                 };
                 lsp-lines = {
+                  enable = true;
+                  autoLoad = true;
+                };
+                luasnip = {
                   enable = true;
                   autoLoad = true;
                 };
