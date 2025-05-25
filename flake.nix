@@ -207,7 +207,7 @@
                   key = "<leader>gr";
                   action = "<cmd>Gitsigns reset_hunk<CR>";
                   options = {
-                    desc = "Status";
+                    desc = "Reset";
                     silent = true;
                   };
                 }
@@ -216,7 +216,7 @@
                   key = "<leader>gn";
                   action = "<cmd>Gitsigns next_hunk<CR>";
                   options = {
-                    desc = "Status";
+                    desc = "Next";
                     silent = true;
                   };
                 }
@@ -225,7 +225,7 @@
                   key = "<leader>gp";
                   action = "<cmd>Gitsigns prev_hunk<CR>";
                   options = {
-                    desc = "Status";
+                    desc = "Previous";
                     silent = true;
                   };
                 }
@@ -612,7 +612,7 @@
                   require('gmn').setup({
                      configFilepath = '~/.config/gemini.nvim/config.json',
                      timeout = 30 * 1000,
-                     model = 'gemini-2.5-pro-exp-03-25',
+                     model = 'gemini-2.5-pro-preview-05-06',
                      safetyThreshold = 'BLOCK_ONLY_HIGH',
                      stripOutermostCodeblock = function()
                        return vim.bo.filetype ~= 'markdown'
