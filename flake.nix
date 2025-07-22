@@ -16,8 +16,46 @@
   outputs = inputs:
     inputs.flake-utils.lib.eachDefaultSystem (system:
       let
-        #nixvimLib = inputs.nixvim.lib.${system};
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [
+      (final: prev: {
+       erlang-ls = prev.stdenv.mkDerivation rec {
+       pname = "erlang-ls";
+       version = "1.1.0";
+
+       src = prev.fetchurl {
+       url = if prev.stdenv.isDarwin
+       then "https://github.com/erlang-ls/erlang_ls/releases/download/${version}/erlang_ls-macos-27.tar.gz"
+       else "https://github.com/erlang-ls/erlang_ls/releases/download/${version}/erlang_ls-linux-27.tar.gz";
+       hash = if prev.stdenv.isDarwin
+       then "sha256-dCWMVyXi7UwBc7MKpMq35dE9SYqFAGfxDvnIuWJOuKA="
+       else "sha256-yu322OUavU24/pl9GG3+dqHcIcU8PU9qSVAp5LYg09A=";
+       };
+
+       unpackPhase = ''
+       mkdir -p source
+       cd source
+       tar -xzf $src
+       '';
+
+       installPhase = ''
+         mkdir -p $out/bin
+         cp erlang_ls $out/bin/
+         chmod +x $out/bin/erlang_ls
+         '';
+
+       meta = with prev.lib; {
+         homepage = "https://github.com/erlang-ls/erlang_ls";
+         description = "Erlang Language Server";
+         platforms = platforms.unix;
+         license = licenses.asl20;
+         mainProgram = "erlang_ls";
+       };
+       };
+      })
+      ];
+      };
         nixvim' = inputs.nixvim.legacyPackages.${system};
         mkPkgs = name: src: pkgs.vimUtils.buildVimPlugin { inherit name src; };
         nvim = nixvim'.makeNixvimWithModule {
@@ -607,6 +645,9 @@
                 })
                 (mkPkgs "template" inputs.template)
               ];
+              extraPackages = with pkgs; [
+                  erlang-ls  # This will be the fixed version from our overlay
+                ];
               extraConfigLua = # lua
                 ''
                   require('gmn').setup({
