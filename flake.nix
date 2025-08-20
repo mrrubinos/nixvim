@@ -19,18 +19,15 @@
         #nixvimLib = inputs.nixvim.lib.${system};
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         nixvim' = inputs.nixvim.legacyPackages.${system};
-        # Make PKM path configurable via environment variable or default
-        pkmPath = builtins.getEnv "NIXVIM_PKM_PATH";
-        defaultPkmPath = "~/Documents/PARA";
-        finalPkmPath = if pkmPath != "" then pkmPath else defaultPkmPath;
         
-        nvim = nixvim'.makeNixvimWithModule {
+        # Function to create nixvim with custom PKM path
+        mkNixvim = pkmPath: nixvim'.makeNixvimWithModule {
           inherit pkgs;
           module = {
             imports = [
               ./options.nix
               ./theme.nix
-              (import ./plugins.nix { inherit inputs pkgs; pkmPath = finalPkmPath; })
+              (import ./plugins.nix { inherit inputs pkgs pkmPath; })
             ];
             # Global options
             config = {
@@ -45,6 +42,9 @@
             };
           };
         };
+        
+        # Default nixvim with default PKM path
+        nvim = mkNixvim "~/Documents/PARA";
       in
         let
           para-cli = pkgs.writeShellScriptBin "para" ''
@@ -75,5 +75,8 @@
           type = "app";
           program = "${para-cli}/bin/para";
         };
+        
+        # Export a lib function to create custom nixvim
+        lib.mkNixvimWithPkm = pkmPath: mkNixvim pkmPath;
       });
 }
