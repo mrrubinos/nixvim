@@ -46,15 +46,18 @@
           };
         };
       in
+        let
+          para-cli = pkgs.writeShellScriptBin "para" ''
+            export PARA_BASE="''${PARA_BASE:-~/Documents/PARA}"
+            export PARA_LOGS="$PARA_BASE/logs"
+            exec ${pkgs.bash}/bin/bash ${./para} "$@"
+          '';
+        in
         {
         packages.default = nvim;
         
         # PARA CLI script
-        packages.para-cli = pkgs.writeShellScriptBin "para" ''
-          export PARA_BASE="''${PARA_BASE:-~/Documents/PARA}"
-          export PARA_LOGS="$PARA_BASE/logs"
-          exec ${pkgs.bash}/bin/bash ${./para} "$@"
-        '';
+        packages.para-cli = para-cli;
 
         # Wrapper script that can accept PKM path
         packages.nvim-with-pkm = pkgs.writeShellScriptBin "nvim" ''
@@ -70,7 +73,7 @@
         
         apps.para = {
           type = "app";
-          program = "${packages.para-cli}/bin/para";
+          program = "${para-cli}/bin/para";
         };
       });
 }
