@@ -49,6 +49,13 @@
         {
         packages.default = nvim;
         
+        # PARA CLI script
+        packages.para-cli = pkgs.writeShellScriptBin "para" ''
+          export PARA_BASE="''${PARA_BASE:-~/Documents/PARA}"
+          export PARA_LOGS="$PARA_BASE/logs"
+          exec ${pkgs.bash}/bin/bash ${./para} "$@"
+        '';
+
         # Wrapper script that can accept PKM path
         packages.nvim-with-pkm = pkgs.writeShellScriptBin "nvim" ''
           # Allow setting PKM path via environment variable
@@ -59,6 +66,11 @@
         apps.default = {
           type = "app";
           program = "${nvim}/bin/nvim";
+        };
+        
+        apps.para = {
+          type = "app";
+          program = "${packages.para-cli}/bin/para";
         };
       });
 }
