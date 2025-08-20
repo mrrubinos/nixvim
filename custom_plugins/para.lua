@@ -18,11 +18,13 @@ M.config = {
     open_log = "<leader>pl",
     add_log = "<leader>pla",
     archive_log = "<leader>plx",
+    insert_log_template = "<leader>pli",
     -- Task management
     open_tasks = "<leader>pt",
     add_task = "<leader>pta",
     archive_done_tasks = "<leader>ptx",
     toggle_task = "<leader>tt",
+    insert_task_template = "<leader>pti",
     -- Search and archive
     search_by_name = "<leader>pn",
     search_by_content = "<leader>ps",
@@ -111,6 +113,22 @@ function M.add_log_entry()
       if file then
         file:write(entry)
         file:close()
+        
+        -- Check if log file is open in any buffer
+        local log_bufnr = vim.fn.bufnr(M.config.log_file)
+        
+        if log_bufnr ~= -1 then
+          -- Buffer exists, reload it
+          vim.api.nvim_buf_call(log_bufnr, function()
+            vim.cmd("edit!")
+            vim.cmd("normal G")  -- Go to end of file
+          end)
+        else
+          -- File not open, open it
+          vim.cmd("edit " .. M.config.log_file)
+          vim.cmd("normal G")  -- Go to end of file
+        end
+        
         vim.notify("Log entry added", vim.log.levels.INFO)
       end
     end
@@ -281,6 +299,19 @@ function M.add_task_to_file(task_line)
   -- Sort the file
   sort_tasks_in_file()
   
+  -- Check if tasks file is open in any buffer
+  local tasks_bufnr = vim.fn.bufnr(M.config.tasks_file)
+  
+  if tasks_bufnr ~= -1 then
+    -- Buffer exists, reload it
+    vim.api.nvim_buf_call(tasks_bufnr, function()
+      vim.cmd("edit!")
+    end)
+  else
+    -- File not open, open it
+    vim.cmd("edit " .. M.config.tasks_file)
+  end
+  
   vim.notify("Task added to tasks.md", vim.log.levels.INFO)
 end
 
@@ -437,6 +468,67 @@ function M.parse_tasks_file_deprecated()
   
   file:close()
   return tasks
+end
+
+-- Insert log entry template at current position
+function M.insert_log_template()
+  local timestamp = get_current_datetime()
+  local template = string.format("%s - ", timestamp)
+  
+  -- Insert at current cursor position
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  local new_line = line:sub(1, col) .. template .. line:sub(col + 1)
+  vim.api.nvim_set_current_line(new_line)
+  
+  -- Move cursor to end of template
+  vim.api.nvim_win_set_cursor(0, {row, col + #template})
+  
+  -- Enter insert mode
+  vim.cmd("startinsert!")
+end
+
+-- Insert task template at current position
+function M.insert_task_template()
+  -- Ask for priority
+  local priority_keys = {}
+  for k, _ in pairs(M.config.priority_order) do
+    table.insert(priority_keys, k)
+  end
+  table.sort(priority_keys)
+  
+  local options = {}
+  for _, k in ipairs(priority_keys) do
+    table.insert(options, k .. " - " .. M.config.priority_order[k])
+  end
+  
+  vim.ui.select(
+    options,
+    { prompt = "Priority: " },
+    function(choice)
+      if not choice then return end
+      local priority = choice:sub(1, 1)
+      
+      local template
+      if priority == "C" then -- Normal priority, no prefix
+        template = "- [ ] "
+      else
+        template = string.format("[%s] - [ ] ", priority)
+      end
+      
+      -- Insert at current cursor position
+      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+      local line = vim.api.nvim_get_current_line()
+      local new_line = line:sub(1, col) .. template .. line:sub(col + 1)
+      vim.api.nvim_set_current_line(new_line)
+      
+      -- Move cursor to end of template
+      vim.api.nvim_win_set_cursor(0, {row, col + #template})
+      
+      -- Enter insert mode
+      vim.cmd("startinsert!")
+    end
+  )
 end
 
 -- Toggle task completion in current line
@@ -1180,19 +1272,21 @@ function M.setup(opts)
   -- Initialize directories
   M.init_directories()
   
-  -- Set up keymaps (only the 9 required functions)
+  -- Set up keymaps
   local keymaps = M.config.keymaps
   
   -- Log management
   vim.keymap.set("n", keymaps.open_log, M.open_log, { desc = "Open log file" })
   vim.keymap.set("n", keymaps.add_log, M.add_log_entry, { desc = "Add log entry" })
   vim.keymap.set("n", keymaps.archive_log, M.archive_log, { desc = "Archive log entries" })
+  vim.keymap.set("n", keymaps.insert_log_template, M.insert_log_template, { desc = "Insert log entry template" })
   
   -- Task management
   vim.keymap.set("n", keymaps.open_tasks, M.open_tasks, { desc = "Open tasks file" })
   vim.keymap.set("n", keymaps.add_task, M.add_task, { desc = "Add task" })
   vim.keymap.set("n", keymaps.archive_done_tasks, M.archive_done_tasks, { desc = "Archive done tasks" })
   vim.keymap.set("n", keymaps.toggle_task, M.toggle_task, { desc = "Toggle task done/undone" })
+  vim.keymap.set("n", keymaps.insert_task_template, M.insert_task_template, { desc = "Insert task template" })
   
   -- Search and archive
   vim.keymap.set("n", keymaps.search_by_name, M.search_notes_by_name, { desc = "Search notes by name" })
