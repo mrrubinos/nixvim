@@ -5,6 +5,10 @@
 
 # Configuration - matches your Neovim PARA setup
 # Can be overridden with environment variable PARA_BASE
+# Expand ~ to $HOME if PARA_BASE starts with ~
+if [[ -n "$PARA_BASE" && "$PARA_BASE" == ~* ]]; then
+    PARA_BASE="${PARA_BASE/#\~/$HOME}"
+fi
 PARA_BASE="${PARA_BASE:-$HOME/Documents/PARA}"
 PARA_LOG="${PARA_LOG:-$PARA_BASE/log.md}"
 PARA_LOG_ARCHIVE="${PARA_LOG_ARCHIVE:-$PARA_BASE/logs/archive}"
