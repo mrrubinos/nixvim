@@ -1,4 +1,4 @@
-{ inputs, pkgs, pkmPath ? "~/Documents/PARA" }:
+{ inputs, pkgs }:
 {
   plugins = {
     barbar = {
@@ -314,9 +314,19 @@
 
     -- PARA Method Task & Note Management Setup
     local para = require('para')
-    local pkm_path = vim.fn.expand("${pkmPath}")
+    
+    -- Get PKM path from environment variable at runtime, with fallback
+    local pkm_path = vim.fn.getenv("PARA_BASE")
+    if pkm_path == vim.NIL or pkm_path == "" then
+      pkm_path = vim.fn.getenv("NIXVIM_PKM_PATH")
+    end
+    if pkm_path == vim.NIL or pkm_path == "" then
+      pkm_path = "~/Documents/PARA"
+    end
+    pkm_path = vim.fn.expand(pkm_path)
+    
     para.setup({
-      -- Base directory for all PARA content (configurable)
+      -- Base directory for all PARA content (configurable at runtime)
       base_path = pkm_path,
       log_file = pkm_path .. "/log.md",
       log_archive_dir = pkm_path .. "/logs/archive",
