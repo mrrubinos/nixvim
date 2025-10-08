@@ -159,7 +159,7 @@
       servers = {
         bashls.enable = true;
         elixirls.enable = true;
-        erlangls.enable = true;
+        elp.enable = true;
         marksman.enable = true;
         nil_ls.enable = true;
       };
