@@ -194,6 +194,15 @@
   # LSP operations
   {
     mode = "n";
+    key = "<leader>ih";
+    action = "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>";
+    options = {
+      desc = "Toggle Inlay Hints";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
     key = "<leader>la";
     action = ":lua vim.lsp.buf.code_action()<CR>";
     options = {
