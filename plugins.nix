@@ -176,10 +176,12 @@
     # Neo-tree configuration
     neo-tree = {
       enable = true;
-      closeIfLastWindow = true;
-      window = {
-        position = "left";
-        width = 30;
+      settings = {
+        closeIfLastWindow = true;
+        window = {
+          position = "left";
+          width = 30;
+        };
       };
     };
     # Noice configuration
