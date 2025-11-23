@@ -369,4 +369,14 @@
   }
   # PARA keymaps are now handled by the para.lua plugin itself via which-key
   # No need to duplicate them here
+  # Typst operations
+  {
+    mode = "n";
+    key = "<leader>tp";
+    action = "<cmd>lua vim.fn.jobstart('xdg-open ' .. vim.fn.expand('%:p:r') .. '.pdf', {detach = true})<CR>";
+    options = {
+      desc = "Preview PDF";
+      silent = true;
+    };
+  }
 ]

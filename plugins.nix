@@ -163,6 +163,13 @@
         elp.enable = true;
         marksman.enable = true;
         nil_ls.enable = true;
+        tinymist = {
+          enable = true;
+          settings = {
+            exportPdf = "onSave";
+            outputPath = "$root/$name";
+          };
+        };
       };
     };
     lsp-lines = {
@@ -211,9 +218,10 @@
       enable = true;
       settings = {
         auto_install = true;
-        ensure_installed = ["bash" "erlang" "elixir" "eex" "heex" "markdown" "markdown_inline" "nix"];
+        ensure_installed = ["bash" "erlang" "elixir" "eex" "heex" "markdown" "markdown_inline" "nix" "typst"];
       };
     };
+    typst-vim.enable = true;
     web-devicons.enable = true;
     # Which-key configuration
     which-key = {
@@ -263,6 +271,14 @@
           {
             __unkeyed-1 = "<leader>tt";
             desc = "Toggle task done/undone";
+          }
+          {
+            __unkeyed-1 = "<leader>t";
+            group = " Typst";
+          }
+          {
+            __unkeyed-1 = "<leader>tp";
+            desc = "Preview PDF";
           }
         ];
       };
