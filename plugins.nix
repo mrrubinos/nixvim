@@ -184,10 +184,24 @@
     neo-tree = {
       enable = true;
       settings = {
-        closeIfLastWindow = true;
+        close_if_last_window = true;
+        filesystem = {
+          follow_current_file = {
+            enabled = true;
+          };
+          use_libuv_file_watcher = true;
+        };
         window = {
           position = "left";
           width = 30;
+          mappings = {
+            "<tab>" = "next_source";
+            "<s-tab>" = "prev_source";
+          };
+        };
+        source_selector = {
+          winbar = true;
+          statusline = false;
         };
       };
     };

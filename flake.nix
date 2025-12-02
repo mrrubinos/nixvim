@@ -37,6 +37,24 @@
                 "lua/para.lua".source = ./custom_plugins/para.lua;
               };
               
+              autoCmd = [
+                {
+                  event = "VimEnter";
+                  callback = {
+                    __raw = ''
+                      function(data)
+                        local directory = vim.fn.isdirectory(data.file) == 1
+                        if not directory then
+                          return
+                        end
+                        vim.cmd.cd(data.file)
+                        require("neo-tree.command").execute({ action = "show" })
+                      end
+                    '';
+                  };
+                }
+              ];
+              
               keymaps = import ./keymaps.nix;
             };
           };
