@@ -230,9 +230,22 @@
     # Treesitter configuration
     treesitter = {
       enable = true;
+      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        bash
+        erlang
+        elixir
+        eex
+        heex
+        markdown
+        markdown_inline
+        nix
+        typst
+      ];
       settings = {
-        auto_install = true;
-        ensure_installed = ["bash" "erlang" "elixir" "eex" "heex" "markdown" "markdown_inline" "nix" "typst"];
+        auto_install = false;
+        highlight.enable = true;
+        indent.enable = true;
+        parser_install_dir.__raw = "vim.fn.stdpath('data') .. '/treesitter'";
       };
     };
     typst-vim.enable = true;
