@@ -212,6 +212,25 @@
         cmdline = {
           enabled = true;
           view = "cmdline_popup";
+          format = {
+            cmdline = {
+              pattern = "^:";
+              icon = "";
+              lang = "vim";
+              opts = {
+                border = {
+                  text = {
+                    top = " Command ";
+                  };
+                };
+              };
+            };
+            substitute = {
+              pattern = "^:%%?s/";
+              icon = "󰛔";
+              lang = "";
+            };
+          };
         };
         lsp = {
           hover = {
@@ -236,10 +255,14 @@
         elixir
         eex
         heex
+        lua
         markdown
         markdown_inline
         nix
+        regex
         typst
+        vim
+        vimdoc
       ];
       settings = {
         auto_install = false;
