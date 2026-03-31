@@ -1,10 +1,6 @@
 { inputs, pkgs }:
 {
   plugins = {
-    barbar = {
-      enable = true;
-      autoLoad = true;
-    };
     bufferline.enable = true;
     cmp = {
       enable = true;
@@ -80,6 +76,62 @@
       };
     };
     comment.enable = true;
+    # Diagnostics list
+    trouble = {
+      enable = true;
+      settings = {
+        auto_close = true;
+        focus = true;
+      };
+    };
+    # Code context and navigation
+    lspsaga = {
+      enable = true;
+      settings = {
+        lightbulb.enable = true;
+        symbol_in_winbar.enable = true;
+      };
+    };
+    # Treesitter text objects for function-level motions
+    treesitter-textobjects = {
+      enable = true;
+      settings = {
+        move = {
+          enable = true;
+          goto_next_start = { "]m" = "@function.outer"; };
+          goto_previous_start = { "[m" = "@function.outer"; };
+        };
+        select = {
+          enable = true;
+          lookahead = true;
+          keymaps = {
+            "af" = "@function.outer";
+            "if" = "@function.inner";
+          };
+        };
+      };
+    };
+    # Sticky function header
+    treesitter-context = {
+      enable = true;
+      settings = {
+        max_lines = 3;
+      };
+    };
+    # Labeled jump targets
+    flash = {
+      enable = true;
+      settings = {
+        modes = {
+          search.enabled = true;
+          char.enabled = true;
+        };
+      };
+    };
+    # Passive symbol highlight
+    illuminate = {
+      enable = true;
+    };
     # Dashboard configuration
     dashboard = {
       enable = true;
@@ -234,10 +286,10 @@
         };
         lsp = {
           hover = {
-            enabled = true;
+            enabled = false;
           };
           signature = {
-            enabled = true;
+            enabled = false;
           };
         };
       };
@@ -253,6 +305,8 @@
         bash
         erlang
         elixir
+        json
+        yaml
         eex
         heex
         lua
@@ -330,6 +384,14 @@
           {
             __unkeyed-1 = "<leader>tp";
             desc = "Preview PDF";
+          }
+          {
+            __unkeyed-1 = "<leader>x";
+            group = " Diagnostics";
+          }
+          {
+            __unkeyed-1 = "<leader>l";
+            group = " LSP";
           }
         ];
       };

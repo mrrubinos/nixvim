@@ -191,7 +191,7 @@
       silent = true;
     };
   }
-  # LSP operations
+  # LSP operations (lspsaga)
   {
     mode = "n";
     key = "<leader>ih";
@@ -203,19 +203,28 @@
   }
   {
     mode = "n";
-    key = "<leader>la";
-    action = ":lua vim.lsp.buf.code_action()<CR>";
+    key = "<leader>lh";
+    action = "<cmd>Lspsaga hover_doc<CR>";
     options = {
-      desc = "Code Action";
+      desc = "Hover Doc";
       silent = true;
     };
   }
   {
     mode = "n";
     key = "<leader>ld";
-    action = ":lua vim.lsp.buf.definition()<CR>";
+    action = "<cmd>Lspsaga goto_definition<CR>";
     options = {
-      desc = "Definition";
+      desc = "Go to Definition";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>lp";
+    action = "<cmd>Lspsaga peek_definition<CR>";
+    options = {
+      desc = "Peek Definition";
       silent = true;
     };
   }
@@ -231,25 +240,25 @@
   {
     mode = "n";
     key = "<leader>li";
-    action = ":lua vim.lsp.buf.implementation()<CR>";
+    action = "<cmd>Lspsaga finder<CR>";
     options = {
-      desc = "Implementation";
+      desc = "Finder (def+ref+impl)";
       silent = true;
     };
   }
   {
     mode = "n";
-    key = "<leader>lr";
-    action = ":lua vim.lsp.buf.references()<CR>";
+    key = "<leader>la";
+    action = "<cmd>Lspsaga code_action<CR>";
     options = {
-      desc = "References";
+      desc = "Code Action";
       silent = true;
     };
   }
   {
     mode = "n";
     key = "<leader>lR";
-    action = ":lua vim.lsp.buf.rename()<CR>";
+    action = "<cmd>Lspsaga rename<CR>";
     options = {
       desc = "Rename";
       silent = true;
@@ -257,10 +266,56 @@
   }
   {
     mode = "n";
-    key = "<leader>lh";
-    action = ":lua vim.lsp.buf.hover()<CR>";
+    key = "<leader>lo";
+    action = "<cmd>Lspsaga outline<CR>";
     options = {
-      desc = "Hover";
+      desc = "Outline";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>lc";
+    action = "<cmd>Lspsaga incoming_calls<CR>";
+    options = {
+      desc = "Incoming Calls";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>lC";
+    action = "<cmd>Lspsaga outgoing_calls<CR>";
+    options = {
+      desc = "Outgoing Calls";
+      silent = true;
+    };
+  }
+  # Telescope LSP wrappers
+  {
+    mode = "n";
+    key = "<leader>lr";
+    action = "<cmd>Telescope lsp_references<CR>";
+    options = {
+      desc = "References (Telescope)";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>ls";
+    action = "<cmd>Telescope lsp_document_symbols<CR>";
+    options = {
+      desc = "Document Symbols";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>lS";
+    action = "<cmd>Telescope lsp_workspace_symbols<CR>";
+    options = {
+      desc = "Workspace Symbols";
       silent = true;
     };
   }
@@ -270,6 +325,43 @@
     action = ":lua vim.lsp.buf.format()<CR>";
     options = {
       desc = "Format";
+      silent = true;
+    };
+  }
+  # Trouble diagnostics
+  {
+    mode = "n";
+    key = "<leader>xx";
+    action = "<cmd>Trouble diagnostics toggle<CR>";
+    options = {
+      desc = "Toggle Diagnostics";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>xw";
+    action = "<cmd>Trouble diagnostics toggle<CR>";
+    options = {
+      desc = "Workspace Diagnostics";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>xd";
+    action = "<cmd>Trouble diagnostics toggle filter.buf=0<CR>";
+    options = {
+      desc = "Document Diagnostics";
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>xq";
+    action = "<cmd>Trouble qflist toggle<CR>";
+    options = {
+      desc = "Quickfix List";
       silent = true;
     };
   }
