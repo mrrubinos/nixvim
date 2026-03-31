@@ -88,7 +88,7 @@
     lspsaga = {
       enable = true;
       settings = {
-        lightbulb.enable = true;
+        lightbulb.enable = false;
         symbol_in_winbar.enable = true;
       };
     };
