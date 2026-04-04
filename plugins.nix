@@ -89,7 +89,8 @@
       enable = true;
       settings = {
         lightbulb.enable = false;
-        symbol_in_winbar.enable = true;
+        symbol_in_winbar.enable = false;
+        implement.enable = false;
       };
     };
     # Treesitter text objects for function-level motions
@@ -117,20 +118,6 @@
       settings = {
         max_lines = 3;
       };
-    };
-    # Labeled jump targets
-    flash = {
-      enable = true;
-      settings = {
-        modes = {
-          search.enabled = true;
-          char.enabled = true;
-        };
-      };
-    };
-    # Passive symbol highlight
-    illuminate = {
-      enable = true;
     };
     # Dashboard configuration
     dashboard = {
